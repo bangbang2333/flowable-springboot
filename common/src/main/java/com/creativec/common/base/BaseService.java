@@ -1,9 +1,9 @@
 package com.creativec.common.base;
 
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.io.Serializable;
 
 /**
  * @author ZSX
@@ -12,62 +12,17 @@ public class BaseService<M extends BaseMyBatisMapper<T>, T extends BaseEntity> e
 
     @Autowired protected M mapper;
 
-    /**
-     * Wrapper查询单个数据
-     */
-    @TranRead
-    public T selectOne(Wrapper<T> queryWrapper) {
-        return this.mapper.selectOne(queryWrapper);
-    }
-
-    /**
-     * 查询全部实体数量
-     *
-     * @return
-     */
-    @TranRead
-    public Integer selectCount() {
-        return this.mapper.selectCount(null);
-    }
 
     /**
      * 通过主键查询
      */
-    public T selectById(String id) {
+    @Override
+    public T getById(Serializable id) {
         if (null == id) {
             return null;
         }
         return this.mapper.selectById(id);
     }
-
-
-    /**
-     * 通过主键查询
-     */
-    @TranRead
-    public T selectByPrimaryKey(String id) {
-        if (id == null) {
-            return null;
-        }
-        return this.mapper.selectById(id);
-    }
-
-    /**
-     * 按照主键进行删除
-     *
-     * @param key
-     * @return
-     */
-//    @TranSave
-//    public boolean removeById(String kid) {
-//        if (kid == null) {
-//            return false;
-//        }
-//        BaseEntity entity = new BaseEntity();
-//        entity.setKid(kid);
-//        entity.setDeleted(null);
-//        return updateById(t);
-//    }
 
 
     /**
@@ -78,17 +33,14 @@ public class BaseService<M extends BaseMyBatisMapper<T>, T extends BaseEntity> e
      */
     @Override
     public boolean updateById(T record) {
-        return mapper.updateById(record) > 0;
+        return this.mapper.updateById(record) > 0;
     }
 
     /**
      * 全部添加
      */
     public String insert(T record) {
-        if (mapper.insert(record) > 0) {
-            return record.getKid();
-        }
-        return null;
+        return this.mapper.insert(record) > 0 ? record.getKid() : null;
     }
 
     public boolean removeById(String kid) {

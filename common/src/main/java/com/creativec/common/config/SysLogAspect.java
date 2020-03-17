@@ -1,17 +1,16 @@
-package com.creativec.example.config;
+package com.creativec.common.config;
 
 
 import com.creativec.common.base.SysLog;
 import com.creativec.common.base.SysOperationLog;
 import com.creativec.common.tools.JsonHelper;
-import com.creativec.example.mapper.SysOperationLogMapper;
+import com.creativec.common.mapper.SysOperationLogMapper;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
 
@@ -23,19 +22,18 @@ import java.lang.reflect.Method;
 @Component
 public class SysLogAspect {
 
-    @Resource
-    private SysOperationLogMapper sysOperationLogMapper;
+    @Resource private SysOperationLogMapper sysOperationLogMapper;
 
-
-    //定义切点 @Pointcut
-    //在注解的位置切入代码
+    /**
+     * 定义切点 @Pointcut
+     * 在注解的位置切入代码
+     */
     @Pointcut("@annotation(com.creativec.common.base.SysLog)")
     public void logPoinCut() {
 
     }
 
 
-    //切面 配置环绕通知
     @AfterReturning(pointcut = "logPoinCut()", returning = "value")
     public void saveSysLog(JoinPoint joinPoint, Object value) {
         //保存日志

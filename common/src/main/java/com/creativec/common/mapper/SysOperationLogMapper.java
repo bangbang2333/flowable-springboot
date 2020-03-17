@@ -1,8 +1,7 @@
-package com.creativec.example.mapper;
+package com.creativec.common.mapper;
 
 import com.creativec.common.base.BaseMyBatisMapper;
 import com.creativec.common.base.SysOperationLog;
-import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Repository;
  * @since 2020-03-13
  */
 
-@Repository
 public interface SysOperationLogMapper extends BaseMyBatisMapper<SysOperationLog> {
 
 }

@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @ComponentScan("com.creativec")
-@MapperScan("com.creativec.example.mapper")
+@MapperScan({"com.creativec.example.mapper", "com.creativec.common.mapper"})
 @SpringBootApplication
 public class DemoApplication {
 

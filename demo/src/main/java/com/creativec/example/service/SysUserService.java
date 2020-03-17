@@ -43,7 +43,7 @@ public class SysUserService extends BaseService<SysUserMapper, SysUser> {
     public String login(String username, String password) {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.eq("user_name", username);
-        SysUser one = selectOne(wrapper);
+        SysUser one = getOne(wrapper);
         if (one == null) {
             throw new BusinessException("用户不存在");
         } else {
