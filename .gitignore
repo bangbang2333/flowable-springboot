@@ -1,0 +1,8 @@
+/common/target
+/common/*.iml
+/demo/.mvn
+/demo/target
+/demo/mvnw
+/demo/*.iml
+/demo/.idea
+/demo/*.md
