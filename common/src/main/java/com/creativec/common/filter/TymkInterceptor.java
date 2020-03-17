@@ -1,5 +1,6 @@
 package com.creativec.common.filter;
 
+import com.creativec.common.base.AuthDataHolder;
 import com.creativec.common.base.BaseConstant;
 import com.creativec.common.base.GlobalResponse;
 import com.creativec.common.base.IgnoreAuth;
@@ -86,5 +87,6 @@ public class TymkInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+        AuthDataHolder.clear();
     }
 }

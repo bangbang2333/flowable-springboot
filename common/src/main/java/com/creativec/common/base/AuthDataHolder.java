@@ -16,7 +16,22 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AuthDataHolder {
 
+    private static final ThreadLocal<User> dataThreadLocal = new ThreadLocal<>();
+
     public static User get() {
+        User data = dataThreadLocal.get();
+        if (data == null) {
+            data = init();
+            dataThreadLocal.set(data);
+        }
+        return data;
+    }
+
+    public static void clear() {
+        dataThreadLocal.remove();
+    }
+
+    private static User init() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String userInfo = (String) request.getAttribute("userInfo");
         User user = JsonHelper.fromJson(userInfo, User.class);
