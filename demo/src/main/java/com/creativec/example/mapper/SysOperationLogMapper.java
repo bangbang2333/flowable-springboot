@@ -1,7 +1,8 @@
 package com.creativec.example.mapper;
 
 import com.creativec.common.base.BaseMyBatisMapper;
-import com.creativec.example.entity.SysUser;
+import com.creativec.common.base.SysOperationLog;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -12,7 +13,7 @@ import com.creativec.example.entity.SysUser;
  * @since 2020-03-13
  */
 
-public interface SysUserMapper extends BaseMyBatisMapper<SysUser> {
-
+@Repository
+public interface SysOperationLogMapper extends BaseMyBatisMapper<SysOperationLog> {
 
 }

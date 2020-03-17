@@ -28,4 +28,9 @@ public class CandidateController {
     public String tt3() {
         return candidateService.tt3();
     }
+
+    @GetMapping("/test4")
+    public void tt4() {
+
+    }
 }

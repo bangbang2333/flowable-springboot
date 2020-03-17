@@ -1,6 +1,5 @@
 package com.creativec.example.controller;
 
-import com.creativec.common.base.GlobalResponse;
 import com.creativec.common.base.IgnoreAuth;
 import com.creativec.common.base.PageResult;
 import com.creativec.example.entity.SysUser;
@@ -27,13 +26,13 @@ public class SysUserController {
 
     @ApiOperation(notes = "removeUser", value = "删除用户")
     @GetMapping("/removeUser")
-    public GlobalResponse removeUser(String kid) {
+    public boolean removeUser(String kid) {
         return sysUserService.removeUser(kid);
     }
 
     @ApiOperation(notes = "update", value = "测试修改用户")
     @GetMapping("/update")
-    public boolean updateUser(SysUser user) {
+    public Boolean updateUser(SysUser user) {
         return sysUserService.updateUser(user);
     }
 

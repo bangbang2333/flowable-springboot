@@ -64,7 +64,8 @@ public class SysUserService extends BaseService<SysUserMapper, SysUser> {
         return updateById(user);
     }
 
-    public GlobalResponse removeUser(String kid) {
-        return GlobalResponse.successOrFail(removeById(kid));
+    @SysLog(logtype = "remove", logname = "删除用户")
+    public boolean removeUser(String kid) {
+        return removeById(kid);
     }
 }
