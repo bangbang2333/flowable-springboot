@@ -38,7 +38,6 @@ public class AuthDataHolder {
             user = JsonHelper.fromJson(userInfo, User.class);
         }
         user.setIp(request.getRemoteAddr());
-        System.out.println("=========AuthDataHolder.get()=========");
         return user;
     }
 
