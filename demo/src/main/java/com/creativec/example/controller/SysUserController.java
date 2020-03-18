@@ -36,6 +36,7 @@ public class SysUserController {
         return sysUserService.updateUser(user);
     }
 
+    @IgnoreAuth
     @ApiOperation(notes = "addUser", value = "添加用户")
     @PostMapping("/addUser")
     public String addUser(SysUser user) {
