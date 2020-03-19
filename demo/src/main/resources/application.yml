@@ -4,6 +4,8 @@ server:
     context-path: /
 
 spring:
+  profiles:
+    active: local
   application:
     name: demo-server #服务调用name
     default-token: QkRGMTBCMTdCRTYzM0I4NDFDOTRDM0NBNzUzQ0FBNTc4QkUzRTkwNjM1MTAxN0EzNEQwNzU0NzBBNzdDN0M1OUEzQUQ3ODUxRDNDNTlCQUMwOTFGQjY2REQ4QUE0QzQy
