@@ -31,6 +31,8 @@ spring:
         max-wait: 1000  # 连接池最大阻塞等待时间（使用负值表示没有限制）
 
 mybatis-plus:
+  configuration:
+    cache-enabled: true
   global-config:
     db-config:
       logic-delete-value: 'null' # 逻辑已删除值(默认为 1)，null字符串mybatis-plus会转换为null处理

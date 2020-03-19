@@ -3,6 +3,7 @@ package com.creativec.common.config;
 import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
+import com.creativec.common.base.ApplicationContextHolder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -53,6 +54,11 @@ public class MyBatisPlusConfig {
     @Bean
     public LogicSqlInjector sqlInjector() {
         return new LogicSqlInjector();
+    }
+
+    @Bean
+    public ApplicationContextHolder applicationContextHolder() {
+        return new ApplicationContextHolder();
     }
 
 }

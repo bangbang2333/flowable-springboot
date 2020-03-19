@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -78,6 +79,12 @@ public class RedisHelper {
             } else {
                 redisTemplate.delete(CollectionUtils.arrayToList(key));
             }
+        }
+    }
+
+    public void delete(Collection keys) {
+        if (CollectionUtils.isEmpty(keys)) {
+            redisTemplate.delete(CollectionUtils.arrayToList(keys));
         }
     }
 

@@ -2,6 +2,9 @@ package com.creativec.common.base;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+/**
+ * @author ZSX
+ */
 public interface BaseMyBatisMapper<T> extends BaseMapper<T> {
 
     /**
