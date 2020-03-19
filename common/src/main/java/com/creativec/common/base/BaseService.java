@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public class BaseService<M extends BaseMyBatisMapper<T>, T extends BaseEntity> extends ServiceImpl<M, T> {
 
-    @Autowired protected M mapper;
+    @Autowired public M mapper;
 
 
     /**
