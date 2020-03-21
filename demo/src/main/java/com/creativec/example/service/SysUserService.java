@@ -23,7 +23,7 @@ import java.util.List;
  * @since 2020-03-13
  */
 @Service
-public class SysUserService extends BaseService<SysUserMapper, SysUser> {
+public class SysUserService extends BaseServiceImpl<SysUserMapper, SysUser> {
 
     @Autowired private RedisHelper redisHelper;
 

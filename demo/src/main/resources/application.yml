@@ -7,7 +7,7 @@ spring:
   profiles:
     active: local
   application:
-    name: demo-server #服务调用name
+    name: demo-server
     default-token: QkRGMTBCMTdCRTYzM0I4NDFDOTRDM0NBNzUzQ0FBNTc4QkUzRTkwNjM1MTAxN0EzNEQwNzU0NzBBNzdDN0M1OUEzQUQ3ODUxRDNDNTlCQUMwOTFGQjY2REQ4QUE0QzQy
   datasource:
     url: jdbc:p6spy:mysql://rm-bp14nmd1q0bg5iw0xvo.mysql.rds.aliyuncs.com:3306/oa?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&autoReconnect=true&allowMultiQueries=true&useSSL=false&zeroDateTimeBehavior=CONVERT_TO_NULL&useAffectedRows=true

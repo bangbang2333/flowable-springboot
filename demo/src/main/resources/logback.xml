@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
-    <property name="log_dir" value="/webapp/logs/demo/"/>
+
+    <springProperty scope="context" name="springAppName"
+                    source="spring.application.name" />
+
+    <property name="log_dir" value="${springAppName}"/>
     <appender name="demo_file_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>demo-server.log</file>
         <Prudent>true</Prudent>

@@ -3,7 +3,7 @@ package com.creativec.example.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.creativec.common.base.AuthDataHolder;
-import com.creativec.common.base.BaseService;
+import com.creativec.common.base.BaseServiceImpl;
 import com.creativec.common.exception.BusinessException;
 import com.creativec.example.entity.HandleFlow;
 import com.creativec.example.entity.SysUser;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @author ZSX
  */
 @Service
-public class HandleFlowService extends BaseService<HandleFlowMapper, HandleFlow> {
+public class HandleFlowService extends BaseServiceImpl<HandleFlowMapper, HandleFlow> {
 
     @Autowired SysUserService sysUserService;
 
