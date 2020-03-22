@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.creativec.common.base.AuthDataHolder;
 import com.creativec.common.base.BaseService;
 import com.creativec.common.exception.BusinessException;
+import com.creativec.common.tools.DateTime;
 import com.creativec.example.entity.HandleFlow;
 import com.creativec.example.entity.SysUser;
 import com.creativec.example.mapper.HandleFlowMapper;
@@ -49,7 +50,7 @@ public class HandleFlowService extends BaseService<HandleFlowMapper, HandleFlow>
                 throw new BusinessException("无效的操作");
             }
         }
-        return true;
+        return false;
     }
 
     public List<Map> getHandleFlow(String interviewerId) {
@@ -59,15 +60,15 @@ public class HandleFlowService extends BaseService<HandleFlowMapper, HandleFlow>
         }
         List<String> ids = list.stream().map(HandleFlow::getHandlerID).collect(Collectors.toList());
         List<SysUser> sysUsers = sysUserService.mapper.selectBatchIds(ids);
-        Map<String, SysUser> userMap = sysUsers.stream().collect(Collectors.toMap(SysUser::getKid, a -> a));
+        Map<String, String> userMap = sysUsers.stream().collect(Collectors.toMap(SysUser::getKid, SysUser::getRealName));
         List result = new ArrayList(list.size());
         for (HandleFlow flow : list) {
             Map map = new HashMap(5);
             map.put("step", flow.getStep());
             map.put("result", flow.getResult());
-            map.put("handlerDate", flow.getHandlerDate());
+            map.put("handlerDate", DateTime.converToStringDate(flow.getHandlerDate(), null));
             map.put("description", flow.getDescription());
-            map.put("handler", userMap.get(flow.getKid()).getRealName());
+            map.put("handler", userMap.get(flow.getKid()));
             result.add(map);
         }
         return result;
