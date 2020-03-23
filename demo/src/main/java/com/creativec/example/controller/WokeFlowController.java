@@ -6,6 +6,7 @@ import com.creativec.example.service.WokeFlowService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/wokeFlow")
-@Api(tags = { "流程表接口"})
+@Api(tags = "流程表接口")
 public class WokeFlowController {
 
     @Autowired
     private WokeFlowService wokeFlowService;
 
     @ApiOperation(notes = "getWokeFlow",value = "查询流程步")
-    @PostMapping("/getWokeFlow")
+    @GetMapping("/getWokeFlow")
     public PageResult getWokeFlow(WokeFlow wokeFlow){
         return wokeFlowService.getWokeFlowByPage(wokeFlow);
     }
