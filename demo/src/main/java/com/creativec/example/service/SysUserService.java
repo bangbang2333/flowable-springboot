@@ -28,10 +28,8 @@ public class SysUserService extends BaseServiceImpl<SysUserMapper, SysUser> {
     @Autowired private RedisHelper redisHelper;
 
     public PageResult getUserByPage(SysUser user) {
-        QueryWrapper wrapper = new QueryWrapper();
-        wrapper.eq("user_name", "zsx");
         PageHelper.startPage(user.getPageNum(), user.getPageSize());
-        List list = list(wrapper);
+        List list = list();
         return PageResult.getPageResult(list);
     }
 
@@ -51,7 +49,7 @@ public class SysUserService extends BaseServiceImpl<SysUserMapper, SysUser> {
             AuthDataHolder.User user1 = new AuthDataHolder.User();
             user1.setKid(one.getKid());
             user1.setUserName(one.getUserName());
-            redisHelper.set(token, JsonHelper.toJson(user1), BaseConstant.tokenExpire);
+            redisHelper.set(token, JsonHelper.toJson(user1), BaseConstant.TOKEN_EXPIRE);
             return token;
         }
     }

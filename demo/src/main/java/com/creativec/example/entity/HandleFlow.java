@@ -5,11 +5,10 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.creativec.common.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import java.util.Date;
 
 /**
  * @author ZSX
@@ -18,6 +17,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("handle_flow")
+@Builder
 public class HandleFlow extends BaseEntity {
 
     @ApiModelProperty(value = "流程步骤id")
@@ -34,18 +34,19 @@ public class HandleFlow extends BaseEntity {
     private Integer result;
 
     @ApiModelProperty(value = "待审批人ID", hidden = true)
-    @TableField("interviewer_id")
+    @TableField("interviewer")
     @JsonIgnore
-    private String interviewerId;
+    private String interviewer;
 
     @ApiModelProperty(value = "流程执行者ID", hidden = true)
-    @TableField("handler_id")
+    @TableField("handler")
     @JsonIgnore
-    private String handlerID;
+    private String handler;
 
     @ApiModelProperty(value = "处理时间", hidden = true)
-    @TableField("handler_date")
-    private Date handlerDate;
+    @TableField(value = "handle_time")
+    @JsonIgnore
+    private Integer handleTime;
 
     @ApiModelProperty(value = "意见描述")
     @TableField("description")

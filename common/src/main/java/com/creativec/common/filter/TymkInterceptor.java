@@ -58,7 +58,7 @@ public class TymkInterceptor implements HandlerInterceptor {
         if (str == null) {
             return outMsg(response, "token已失效,请重新登录", -4000);
         }
-        redisHelper.expire(token, BaseConstant.tokenExpire);
+        redisHelper.expire(token, BaseConstant.TOKEN_EXPIRE);
         request.setAttribute("userInfo", str);
         return true;
     }

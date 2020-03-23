@@ -1,5 +1,6 @@
 package com.creativec.example.controller;
 
+import com.creativec.common.base.GlobalResponse;
 import com.creativec.example.service.HandleFlowService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,9 +25,9 @@ public class HandleFlowController {
 
     @ApiOperation(notes = "handleFlow", value = "处理流程")
     @PostMapping("/handleFlow")
-    public boolean handleFlow(@RequestParam String kid,
-                              @RequestParam Integer result,
-                              @RequestParam String description) {
+    public GlobalResponse handleFlow(@RequestParam String kid,
+                                     @RequestParam Integer result,
+                                     @RequestParam String description) {
         return handleFlowService.handleFlow(kid, result, description);
     }
 
