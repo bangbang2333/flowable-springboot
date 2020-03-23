@@ -78,7 +78,9 @@ public class HandleFlowService extends BaseServiceImpl<HandleFlowMapper, HandleF
                     success = save(nextFlow);
                 }
             }
-            if (!success) {
+            if (success) {
+                return GlobalResponse.success(null);
+            } else {
                 throw new BusinessException("操作失败");
             }
         }
@@ -98,7 +100,7 @@ public class HandleFlowService extends BaseServiceImpl<HandleFlowMapper, HandleF
             Map map = new HashMap(5);
             map.put("step", flow.getStep());
             map.put("result", flow.getResult());
-            map.put("handlerDate", flow.getHandleTime());
+            map.put("handleTime", flow.getHandleTime());
             map.put("description", flow.getDescription());
             map.put("handler", userMap.get(flow.getHandler()));
             result.add(map);

@@ -33,6 +33,10 @@ public class HandleFlow extends BaseEntity {
     @TableField("result")
     private Integer result;
 
+    @ApiModelProperty(value = "处理时间", hidden = true)
+    @TableField("handle_time")
+    private Integer handleTime;
+
     @ApiModelProperty(value = "待审批人ID", hidden = true)
     @TableField("interviewer")
     @JsonIgnore
@@ -42,11 +46,6 @@ public class HandleFlow extends BaseEntity {
     @TableField("handler")
     @JsonIgnore
     private String handler;
-
-    @ApiModelProperty(value = "处理时间", hidden = true)
-    @TableField(value = "handle_time")
-    @JsonIgnore
-    private Integer handleTime;
 
     @ApiModelProperty(value = "意见描述")
     @TableField("description")
