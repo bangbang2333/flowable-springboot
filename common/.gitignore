@@ -29,3 +29,5 @@ application-local.yaml
 
 ### Mac Cache File ###
 *.DS_Store
+
+*.log

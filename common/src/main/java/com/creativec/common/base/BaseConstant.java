@@ -26,9 +26,6 @@ public interface BaseConstant {
 
     String TREE_PATH_SEPARATOR = "//";
 
-    enum AUTH_DATA_KEY {
-        userId, userAccountId, clientCompanyId, companyId, authClientId, sessionId, systemId, organizationId, domainId, authorities, securityMode
-    }
 
     long DEFAULT_EXPORT_LIMIT_SIZE = 1000;
 
@@ -39,6 +36,6 @@ public interface BaseConstant {
 
     String PreAuthorizePermitAll = "permitAll()";
 
-    //token有效期默认2小时
-    int tokenExpire = 3600 * 2;
+    //token有效期
+    int TOKEN_EXPIRE = 3600 * 15;
 }

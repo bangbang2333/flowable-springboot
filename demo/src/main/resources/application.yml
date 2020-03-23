@@ -8,7 +8,7 @@ spring:
     active: local
   application:
     name: demo-server
-    default-token: QkRGMTBCMTdCRTYzM0I4NDFDOTRDM0NBNzUzQ0FBNTc4QkUzRTkwNjM1MTAxN0EzNEQwNzU0NzBBNzdDN0M1OUEzQUQ3ODUxRDNDNTlCQUMwOTFGQjY2REQ4QUE0QzQy
+    default-token: MEZDQTBGNEIzNkUwNkU5NjAxMkUxQUUxMzUxODMxREUwQjAxOTVDOEFDNDM1MDIyMDcyNDhFMEFENDZCQkVBMTExOTY3NTQ1ODkyRDM2RUM0Q0JCMzk2RkYzMUUwNjky
   datasource:
     url: jdbc:p6spy:mysql://rm-bp14nmd1q0bg5iw0xvo.mysql.rds.aliyuncs.com:3306/oa?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&autoReconnect=true&allowMultiQueries=true&useSSL=false&zeroDateTimeBehavior=CONVERT_TO_NULL&useAffectedRows=true
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
@@ -34,7 +34,8 @@ spring:
 
 mybatis-plus:
   configuration:
-    cache-enabled: true
+    cache-enabled: false
+    call-setters-on-nulls: true
   global-config:
     db-config:
       logic-delete-value: 'null' # 逻辑已删除值(默认为 1)，null字符串mybatis-plus会转换为null处理

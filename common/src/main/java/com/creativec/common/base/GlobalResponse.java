@@ -55,15 +55,23 @@ public class GlobalResponse<T> {
     }
 
     public static <T> GlobalResponse<T> fail() {
-        GlobalResponse<T> resp = new GlobalResponse<T>();
+        GlobalResponse<T> resp = new GlobalResponse<>();
         resp.setStatusCode(GolbalResponseCodeEnum.FAIL.getCode());
         resp.setSuccess(false);
         resp.setAlertMsg(GolbalResponseCodeEnum.FAIL.getDesc());
         return resp;
     }
 
+    public static <T> GlobalResponse<T> fail(String alertMsg) {
+        GlobalResponse<T> resp = new GlobalResponse<>();
+        resp.setStatusCode(GolbalResponseCodeEnum.FAIL.getCode());
+        resp.setSuccess(false);
+        resp.setAlertMsg(alertMsg);
+        return resp;
+    }
+
     public static <T> GlobalResponse<T> fail(String alertMsg, int code) {
-        GlobalResponse<T> resp = new GlobalResponse<T>();
+        GlobalResponse<T> resp = new GlobalResponse<>();
         resp.setStatusCode(code);
         resp.setSuccess(false);
         resp.setAlertMsg(Strings.isNullOrEmpty(alertMsg) ? GolbalResponseCodeEnum.FAIL.getDesc() : alertMsg);

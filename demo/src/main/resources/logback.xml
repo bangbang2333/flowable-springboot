@@ -9,7 +9,7 @@
         <file>demo-server.log</file>
         <Prudent>true</Prudent>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log_dir}demo-server.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${log_dir}.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>15</maxHistory>
         </rollingPolicy>
         <encoder>

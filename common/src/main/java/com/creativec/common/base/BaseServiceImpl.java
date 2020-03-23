@@ -1,10 +1,11 @@
 package com.creativec.common.base;
 
-import java.io.Serializable;
-
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author ZSX
@@ -52,6 +53,11 @@ public class BaseServiceImpl<M extends BaseMyBatisMapper<T>, T extends BaseEntit
         entity.setUpdatedBy(user.getKid());
         entity.setUpdatedIp(user.getIp());
         return this.mapper.deleteByIdWithFill(entity) > 0;
+    }
+
+
+    public List<T> selectBatchIds(Collection<? extends Serializable> idList) {
+        return this.mapper.selectBatchIds(idList);
     }
 
 }
