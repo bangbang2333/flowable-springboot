@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,6 +58,9 @@ public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({Throwable.class})
     public <T> GlobalResponse<T> handleThrowable(Throwable e) {
+        if (e instanceof MissingServletRequestParameterException) {
+            return GlobalResponse.fail(e.getMessage());
+        }
         log.error(Throwables.getStackTraceAsString(e));
         return GlobalResponse.exception(e, null);
     }
