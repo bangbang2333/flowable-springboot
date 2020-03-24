@@ -31,6 +31,7 @@ public class InterviewerDto {
     private String mobile;
 
     @NotNull
+    // @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "面试预约时间")
     private Date appointmentTime;
 
