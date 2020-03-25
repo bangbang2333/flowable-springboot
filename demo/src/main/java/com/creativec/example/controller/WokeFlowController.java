@@ -5,11 +5,11 @@ import com.creativec.example.entity.WokeFlow;
 import com.creativec.example.service.WokeFlowService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author llpei
@@ -30,9 +30,21 @@ public class WokeFlowController {
         return wokeFlowService.getWokeFlowByPage(wokeFlow);
     }
 
-    @ApiOperation(notes = "update",value = "查询流程步")
+    @ApiOperation(notes = "update",value = "修改流程步")
     @PostMapping("/update")
     public Boolean update(WokeFlow wokeFlow){
         return wokeFlowService.updateWokeFlow(wokeFlow);
+    }
+
+    @ApiOperation(notes = "getWokeFlowByWokesId",value = "根据招聘信息查询流程配置列表")
+    @PostMapping("/getWokeFlowByWokesId")
+    public List<WokeFlow> getWokeFlowByWokesId(@RequestParam @ApiParam("招聘信息id") String wokesId){
+        return wokeFlowService.queryWokeFlowListByWokesKid(wokesId);
+    }
+
+    @ApiOperation(notes = "addWokeFlow",value = "添加流程配置")
+    @PostMapping("/addWokeFlow")
+    public String addWokeFlow(WokeFlow wokeFlow){
+        return wokeFlowService.addWokeFlow(wokeFlow);
     }
 }

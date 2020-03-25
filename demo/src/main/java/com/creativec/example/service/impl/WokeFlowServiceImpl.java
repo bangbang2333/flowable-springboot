@@ -1,9 +1,5 @@
 package com.creativec.example.service.impl;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.creativec.common.base.BaseServiceImpl;
 import com.creativec.common.base.PageResult;
@@ -11,6 +7,9 @@ import com.creativec.example.entity.WokeFlow;
 import com.creativec.example.mapper.WokeFlowMapper;
 import com.creativec.example.service.WokeFlowService;
 import com.github.pagehelper.PageHelper;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author llpei
@@ -39,5 +38,11 @@ public class WokeFlowServiceImpl extends BaseServiceImpl<WokeFlowMapper, WokeFlo
         wrapper.eq("woke_id", wokesKid);
         wrapper.orderByAsc("step");
         return super.list(wrapper);
+    }
+
+    @Override
+    public String addWokeFlow(WokeFlow wokeFlow) {
+        String kid = super.insert(wokeFlow);
+        return kid;
     }
 }
