@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.creativec.common.base.IgnoreAuth;
 import com.creativec.common.base.PageResult;
 import com.creativec.example.dto.InterviewerDto;
 import com.creativec.example.dto.InterviewerSearchDto;
@@ -52,7 +51,6 @@ public class InterviewerController {
         return interviewerService.updateInterviewer(interviewerDto);
     }
 
-    @IgnoreAuth
     @ApiOperation(notes = "interviewer", value = "添加用户")
     @PostMapping("/interviewer")
     public String addInterviewer(@Valid @RequestBody InterviewerDto interviewerDto) {
