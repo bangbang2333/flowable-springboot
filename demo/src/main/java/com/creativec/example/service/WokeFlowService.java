@@ -1,10 +1,10 @@
 package com.creativec.example.service;
 
-import java.util.List;
-
 import com.creativec.common.base.BaseService;
 import com.creativec.common.base.PageResult;
 import com.creativec.example.entity.WokeFlow;
+
+import java.util.List;
 
 /**
  * @author llpei
@@ -34,5 +34,13 @@ public interface WokeFlowService extends BaseService<WokeFlow> {
      * @return
      */
     List<WokeFlow> queryWokeFlowListByWokesKid(String wokesKid);
+
+    /**
+     * 添加流程步骤
+     *
+     * @param wokeFlow
+     * @return
+     * */
+    String addWokeFlow(WokeFlow wokeFlow);
 
 }

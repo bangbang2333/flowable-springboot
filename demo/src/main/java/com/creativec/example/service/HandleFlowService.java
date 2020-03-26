@@ -49,8 +49,8 @@ public class HandleFlowService extends BaseServiceImpl<HandleFlowMapper, HandleF
                 .set(HandleFlow::getDescription, description)
                 .set(HandleFlow::getResult, result)
                 .set(HandleFlow::getHandleTime, Long.valueOf(System.currentTimeMillis() / 1000).intValue());
-        boolean success = false;
         if (update(wrapper)) {
+            boolean success = false;
             LambdaUpdateWrapper<Interviewer> updateWrapper = new LambdaUpdateWrapper<>();
             if (result == 2) {
                 updateWrapper.eq(Interviewer::getKid, handleFlow.getInterviewer())
@@ -97,7 +97,8 @@ public class HandleFlowService extends BaseServiceImpl<HandleFlowMapper, HandleF
         List<SysUser> sysUsers = sysUserService.selectBatchIds(ids);
         Map<String, String> userMap = sysUsers.stream().collect(Collectors.toMap(SysUser::getKid, SysUser::getRealName));
         for (HandleFlow flow : list) {
-            Map map = new HashMap(5);
+            Map map = new HashMap(6);
+            map.put("kid", flow.getKid());
             map.put("step", flow.getStep());
             map.put("result", flow.getResult());
             map.put("handleTime", flow.getHandleTime());
