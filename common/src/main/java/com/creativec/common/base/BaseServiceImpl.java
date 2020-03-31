@@ -2,19 +2,20 @@ package com.creativec.common.base;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author ZSX
  */
-public class BaseServiceImpl<M extends BaseMyBatisMapper<T>, T extends BaseEntity> extends ServiceImpl<M, T>
-        implements BaseService<T> {
+public class BaseServiceImpl<M extends BaseMyBatisMapper<T>, T extends BaseEntity> extends ServiceImpl<M, T> {
 
-    @Autowired
-    public M mapper;
+    @Autowired protected M mapper;
+    @Resource protected ModelMapper modelMapper;
 
     /**
      * 通过主键查询
@@ -55,9 +56,8 @@ public class BaseServiceImpl<M extends BaseMyBatisMapper<T>, T extends BaseEntit
         return this.mapper.deleteByIdWithFill(entity) > 0;
     }
 
-
-    public List<T> selectBatchIds(Collection<? extends Serializable> idList) {
-        return this.mapper.selectBatchIds(idList);
+    protected <LDTO extends BaseEntity> List<LDTO> copyProperties(List<T> entities, Class<LDTO> ldtoClass) {
+        return entities.stream().map(entity -> modelMapper.map(entity, ldtoClass)).collect(Collectors.toList());
     }
 
 }

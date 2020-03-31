@@ -1,37 +1,39 @@
-package com.creativec.example.entity;
+package com.creativec.hh.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.creativec.common.base.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-import lombok.experimental.Accessors;
-
 import java.time.LocalDateTime;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 /**
- * @author ZSX
+ * <p>
+ * 流程处理表
+ * </p>
+ *
+ * @author zsx
+ * @since 2020-03-31
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@TableName("handle_flow")
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
+@ApiModel(value="HandleFlow对象", description="流程处理表")
 public class HandleFlow extends BaseEntity {
+
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "流程步骤id")
     @TableField("woke_flow_id")
-    @JsonIgnore
     private String wokeFlowId;
 
-    @ApiModelProperty(value = "流程步骤", hidden = true)
+    @ApiModelProperty(value = "流程步骤")
     @TableField("step")
     private Integer step;
 
@@ -39,11 +41,11 @@ public class HandleFlow extends BaseEntity {
     @TableField("result")
     private Integer result;
 
-    @ApiModelProperty(value = "待审批人ID", hidden = true)
+    @ApiModelProperty(value = "待审批人ID")
     @TableField("interviewer")
     private String interviewer;
 
-    @ApiModelProperty(value = "流程执行者ID", hidden = true)
+    @ApiModelProperty(value = "流程执行者ID")
     @TableField("handler")
     private String handler;
 
@@ -51,9 +53,6 @@ public class HandleFlow extends BaseEntity {
     @TableField("description")
     private String description;
 
-
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     @ApiModelProperty(value = "处理时间")
     @TableField("handle_time")
     private LocalDateTime handleTime;

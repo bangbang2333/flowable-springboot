@@ -14,7 +14,7 @@ import com.creativec.example.mapper.HandleFlowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +48,7 @@ public class HandleFlowService extends BaseServiceImpl<HandleFlowMapper, HandleF
                 .eq(HandleFlow::getResult, 0)
                 .set(HandleFlow::getDescription, description)
                 .set(HandleFlow::getResult, result)
-                .set(HandleFlow::getHandleTime, Long.valueOf(System.currentTimeMillis() / 1000).intValue());
+                .set(HandleFlow::getHandleTime, LocalDateTime.now());
         if (update(wrapper)) {
             boolean success = false;
             LambdaUpdateWrapper<Interviewer> updateWrapper = new LambdaUpdateWrapper<>();
@@ -94,7 +94,7 @@ public class HandleFlowService extends BaseServiceImpl<HandleFlowMapper, HandleF
             return result;
         }
         List<String> ids = list.stream().map(HandleFlow::getHandler).collect(Collectors.toList());
-        List<SysUser> sysUsers = sysUserService.selectBatchIds(ids);
+        List<SysUser> sysUsers = sysUserService.getBaseMapper().selectBatchIds(ids);
         Map<String, String> userMap = sysUsers.stream().collect(Collectors.toMap(SysUser::getKid, SysUser::getRealName));
         for (HandleFlow flow : list) {
             Map map = new HashMap(6);
