@@ -39,7 +39,7 @@ spring:
 
 mybatis-plus:
   configuration:
-    cache-enabled: true
+    cache-enabled: false
     call-setters-on-nulls: true
   global-config:
     db-config:

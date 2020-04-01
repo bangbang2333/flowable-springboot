@@ -7,10 +7,7 @@ import com.creativec.example.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/sysUser")
@@ -46,7 +43,7 @@ public class SysUserController {
     @IgnoreAuth
     @ApiOperation(notes = "login", value = "用户登录")
     @PostMapping("/login")
-    public String login(String username, String password) {
+    public String login(@RequestParam String username, String password) {
         return sysUserService.login(username, password);
     }
 }

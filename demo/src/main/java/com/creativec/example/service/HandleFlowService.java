@@ -14,6 +14,7 @@ import com.creativec.example.mapper.HandleFlowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,7 +62,8 @@ public class HandleFlowService extends BaseServiceImpl<HandleFlowMapper, HandleF
                 WokeFlow wokeFlow = wokeFlowService.getById(handleFlow.getWokeFlowId());
                 LambdaQueryWrapper<WokeFlow> queryWrapper = new LambdaQueryWrapper();
                 queryWrapper.eq(WokeFlow::getWokeId, wokeFlow.getWokeId())
-                        .eq(WokeFlow::getStep, handleFlow.getStep() + 1);
+                        .eq(WokeFlow::getStep, handleFlow.getStep() + 1)
+                        .last("limit 1");
                 WokeFlow nextWork = wokeFlowService.getOne(queryWrapper);
                 if (nextWork == null) {
                     updateWrapper.eq(Interviewer::getKid, handleFlow.getInterviewer())

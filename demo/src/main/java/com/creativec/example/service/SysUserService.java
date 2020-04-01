@@ -41,6 +41,7 @@ public class SysUserService extends BaseServiceImpl<SysUserMapper, SysUser> {
     public String login(String username, String password) {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.eq("user_name", username);
+        wrapper.last("limit 1");
         SysUser one = getOne(wrapper);
         if (one == null) {
             throw new BusinessException("用户不存在");
