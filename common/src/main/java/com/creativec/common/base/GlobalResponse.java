@@ -78,16 +78,16 @@ public class GlobalResponse<T> {
         return resp;
     }
 
-    public static <T> GlobalResponse<T> exception(Throwable e, String alertMsg) {
-        GlobalResponse<T> resp = new GlobalResponse<T>();
+    public static <T> GlobalResponse<T> exception(String alertMsg) {
+        GlobalResponse<T> resp = new GlobalResponse<>();
         resp.setStatusCode(GolbalResponseCodeEnum.EXCEPTION.getCode());
         resp.setSuccess(false);
         resp.setAlertMsg(Strings.isNullOrEmpty(alertMsg) ? GolbalResponseCodeEnum.EXCEPTION.getDesc() : alertMsg);
         return resp;
     }
 
-    public static <T> GlobalResponse<T> exception(Throwable e, String alertMsg, int statusCode) {
-        GlobalResponse<T> resp = new GlobalResponse<T>();
+    public static <T> GlobalResponse<T> exception(String alertMsg, int statusCode) {
+        GlobalResponse<T> resp = new GlobalResponse<>();
         resp.setStatusCode(statusCode);
         resp.setSuccess(false);
         resp.setAlertMsg(Strings.isNullOrEmpty(alertMsg) ? GolbalResponseCodeEnum.EXCEPTION.getDesc() : alertMsg);

@@ -29,7 +29,7 @@ public class AuthDataHolder {
     }
 
     private static User init() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String userInfo = (String) request.getAttribute("userInfo");
         User user;
         if (userInfo == null) {
