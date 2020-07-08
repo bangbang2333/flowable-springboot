@@ -1,0 +1,19 @@
+antPatterns:
+  - /health/**
+  - /index**
+  - /assets/**
+  - /swagger**
+  - /swagger-resources/**
+  - /doc.html
+  - /webjars/**
+  - /v2/**
+  - /images/**
+  - /css/**
+  - /fonts/**
+  - /img/**
+  - /favicon.ico
+  - /static/**
+
+
+
+
