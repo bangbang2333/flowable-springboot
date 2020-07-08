@@ -51,11 +51,11 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://114.55.174.81:3306/socialmall?useUnicode=true&characterEncoding=utf-8");
+        dsc.setUrl("jdbc:mysql://rm-bp14nmd1q0bg5iw0xvo.mysql.rds.aliyuncs.com:3306/oa?useUnicode=true&characterEncoding=utf-8");
         dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("zqM4Nu*KID");
+        dsc.setPassword("5%-yLhEbty");
         mpg.setDataSource(dsc);
 
         // 包配置
@@ -116,9 +116,6 @@ public class CodeGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
        // strategy.setTablePrefix("rpt_fw_");
-        strategy.setSuperEntityClass("com.creativec.common.base.BaseEntity");
-        strategy.setSuperEntityColumns("kid", "is_deleted", "created_by", "version", "created_at", "updated_by", "updated_at",
-                "created_from", "created_ip", "updated_from", "updated_ip", "parent_id", "root_id", "tree_depth", "id_path", "name_path");
         strategy.setEntityBooleanColumnRemoveIsPrefix(true);
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
