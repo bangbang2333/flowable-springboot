@@ -1,4 +1,4 @@
-/oa/*
+
 /oa/*.md
 /oa/*.cmd
 /generator/*.iml
@@ -9,3 +9,5 @@
 /.idea/codeStyles/*.xml
 /.idea/*.xml
 /*.md
+/oa/.mvn/wrapper
+/oa/mvnw
