@@ -221,7 +221,7 @@ public class SystemService extends ServiceImpl<SysUserMapper, SysUser> {
         roleMenuService.remove(new QueryWrapper<SysRoleMenu>().in("menu_id", ids));
         menuService.removeByIds(ids);
         if (menu.getParentId() != -1) {
-            Integer count = menuService.count(new QueryWrapper<SysMenu>().eq("parent_id", menu.getParentId()));
+            int count = menuService.count(new QueryWrapper<SysMenu>().eq("parent_id", menu.getParentId()));
             if (count == 0) {
                 SysMenu parent = new SysMenu();
                 parent.setId(menu.getParentId());

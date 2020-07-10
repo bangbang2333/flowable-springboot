@@ -11,3 +11,10 @@
 /*.md
 /oa/.mvn/wrapper
 /oa/mvnw
+/common/src/main/resources/rebel.xml
+/common/src/main/resources/rebel-remote.xml
+/oa/src/main/resources/rebel-remote.xml
+/oa/src/main/resources/rebel.xml
+/common/*.iml
+/oa/src/main/resources/rebel-remote.xml
+/oa/src/main/resources/rebel.xml

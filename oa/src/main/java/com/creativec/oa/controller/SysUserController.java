@@ -3,6 +3,7 @@ package com.creativec.oa.controller;
 import com.creativec.base.*;
 import com.creativec.entity.SysMenu;
 import com.creativec.entity.SysRole;
+import com.creativec.entity.SysUser;
 import com.creativec.exception.BusinessException;
 import com.creativec.oa.dto.AddMenu2RoleDto;
 import com.creativec.oa.dto.AddRole2UserDto;
@@ -110,8 +111,9 @@ public class SysUserController {
     @ApiOperation(notes = "findUserPage", value = "分页查询用户列表")
     @PostMapping("/findUserPage")
     public PageResult findUserPage(Page page) {
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        return PageResult.getPageResult(sysUserService.list());
+        PageHelper.startPage(page.getCurrent(), page.getSize());
+        List<SysUser> list = sysUserService.list();
+        return PageResult.ok(list);
     }
 
     @ApiOperation(notes = "findAllRole", value = "查询角色列表,返回所有角色")
