@@ -10,13 +10,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
  * <p>
- * 角色表
+ * 用户角色表
  * </p>
  *
  * @author zsx
@@ -26,8 +24,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@ApiModel(value = "SysRole对象", description = "角色表")
-public class SysRole implements Serializable {
+@ApiModel(value = "SysRoleMenu对象", description = "角色菜单表")
+public class SysRoleMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,18 +33,12 @@ public class SysRole implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @NotBlank(message = "角色名称不能为空")
-    @ApiModelProperty(value = "角色名称")
-    @TableField("name")
-    private String name;
+    @ApiModelProperty(value = "角色ID")
+    @TableField("role_id")
+    private Integer roleId;
 
-    @NotNull(message = "角色排序号不能为空")
-    @ApiModelProperty(value = "角色排序号")
-    @TableField("sequence")
-    private Integer sequence;
-
-    @ApiModelProperty(hidden = true)
-    @TableField(exist = false)
-    private boolean checked;
+    @ApiModelProperty(value = "菜单ID")
+    @TableField("menu_id")
+    private Integer menuId;
 
 }

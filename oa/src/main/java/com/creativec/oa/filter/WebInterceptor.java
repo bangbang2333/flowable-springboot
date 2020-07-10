@@ -5,7 +5,7 @@ import com.creativec.base.AuthDataHolder;
 import com.creativec.base.BaseConstant;
 import com.creativec.base.IgnoreAuth;
 import com.creativec.exception.BusinessException;
-import com.creativec.oa.service.SysUserService;
+import com.creativec.oa.service.SystemService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
-import java.util.List;
 
 /**
  * 请求全局拦截器
@@ -28,11 +27,12 @@ import java.util.List;
 @Component
 public class WebInterceptor implements HandlerInterceptor {
 
-    @Autowired private SysUserService sysUserService;
+    @Autowired private SystemService sysUserService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // 对自定义注解处理  是否放行
+        boolean verify = true;
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Method method = handlerMethod.getMethod();
@@ -40,6 +40,9 @@ public class WebInterceptor implements HandlerInterceptor {
                 IgnoreAuth la = method.getAnnotation(IgnoreAuth.class);
                 if (la.isIngore()) {
                     return true;
+                } else {
+                    //不校验资源权限,表示所有人都能访问
+                    verify = false;
                 }
             }
         }
@@ -63,10 +66,9 @@ public class WebInterceptor implements HandlerInterceptor {
             }
             //判断用户权限
             Integer id = (Integer) claims.get("id");
-            List<String> permissions = sysUserService.getUserPermissions(id);
-            if (!permissions.contains(request.getRequestURI())) {
-          //      throw new BusinessException("无访问权限", 403);
-            }
+//            if (verify && sysUserService.isAllow(id, request.getRequestURI())) {
+//                throw new BusinessException("无访问权限", 403);
+//            }
             AuthDataHolder.User user = AuthDataHolder.get();
             user.setId(id);
             user.setUserName(claims.get("username").toString());

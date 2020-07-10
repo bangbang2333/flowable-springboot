@@ -7,11 +7,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -25,7 +26,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@ApiModel(value="SysMenu对象", description="菜单表")
+@ApiModel(value = "SysMenu对象", description = "菜单表")
 public class SysMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,6 +39,11 @@ public class SysMenu implements Serializable {
     @TableField("parent_id")
     private Integer parentId;
 
+    @ApiModelProperty(value = "父节点路径")
+    @TableField("parent_id_path")
+    private String parentIdPath;
+
+    @NotBlank(message = "菜单名称不能为空")
     @ApiModelProperty(value = "菜单名称")
     @TableField("name")
     private String name;
@@ -66,5 +72,11 @@ public class SysMenu implements Serializable {
     @TableField("is_leaf")
     private Boolean isLeaf;
 
+    @ApiModelProperty(hidden = true)
+    @TableField(exist = false)
+    private boolean checked;
 
+    @ApiModelProperty(hidden = true)
+    @TableField(exist = false)
+    private List<SysMenu> child;
 }

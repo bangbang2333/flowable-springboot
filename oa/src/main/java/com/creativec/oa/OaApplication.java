@@ -22,7 +22,7 @@ public class OaApplication {
     }
 
     @Bean(name = "permissionCache")
-    public Cache<Integer, List<String>> initCartCache() {
+    public Cache<String, List<Integer>> initCartCache() {
         return Caffeine.newBuilder()
                 .initialCapacity(500)
                 .maximumSize(5000)
