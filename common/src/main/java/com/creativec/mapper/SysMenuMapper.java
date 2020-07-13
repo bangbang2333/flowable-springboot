@@ -1,5 +1,6 @@
 package com.creativec.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.creativec.entity.SysMenu;
 
 /**
@@ -10,6 +11,6 @@ import com.creativec.entity.SysMenu;
  * @author zsx
  * @since 2020-07-08
  */
-public interface SysMenuMapper extends BaseMyBatisMapper<SysMenu> {
+public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
 }

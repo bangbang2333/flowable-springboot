@@ -1,9 +1,7 @@
 package com.creativec.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -49,4 +47,9 @@ public class SysUser {
     @TableField("password")
     private String password;
 
+
+    @TableLogic
+    @JsonIgnore
+    @TableField(value = "is_deleted", fill = FieldFill.INSERT, select = false)
+    private String deleted;
 }

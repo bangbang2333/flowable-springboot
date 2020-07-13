@@ -1,6 +1,7 @@
 package com.creativec.mapper;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.creativec.entity.WxUser;
 
 /**
@@ -12,7 +13,7 @@ import com.creativec.entity.WxUser;
  * @since 2020-03-13
  */
 
-public interface WxUserMapper extends BaseMyBatisMapper<WxUser> {
+public interface WxUserMapper extends BaseMapper<WxUser> {
 
 
 }

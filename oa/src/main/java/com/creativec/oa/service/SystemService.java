@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.creativec.base.BaseConstant;
 import com.creativec.entity.*;
 import com.creativec.exception.BusinessException;
-import com.creativec.mapper.*;
+import com.creativec.mapper.ManyTableMapper;
+import com.creativec.mapper.SysRoleMapper;
+import com.creativec.mapper.SysUserMapper;
 import com.creativec.oa.dto.AddMenu2RoleDto;
 import com.creativec.oa.dto.AddRole2UserDto;
 import com.github.benmanes.caffeine.cache.Cache;
@@ -93,19 +95,9 @@ public class SystemService extends ServiceImpl<SysUserMapper, SysUser> {
 
     public List<SysMenu> getMenuByUser(Integer userId) {
         List<SysMenu> menu = manyTableMapper.getMenuByUser(userId);
-        return menus2Tree(menu);
+        return menuService.toTree(menu);
     }
 
-    private List<SysMenu> initChild(List<SysMenu> menus, Map<Integer, List<SysMenu>> parent) {
-        for (SysMenu m : menus) {
-            List<SysMenu> child = parent.get(m.getId());
-            if (child != null) {
-                m.setChild(child);
-                initChild(child, parent);
-            }
-        }
-        return menus;
-    }
 
     public List<SysRole> findRoleByUser(Integer userId) {
         List<SysRole> roles = roleMapper.selectList(null);
@@ -126,13 +118,12 @@ public class SystemService extends ServiceImpl<SysUserMapper, SysUser> {
         List<SysMenu> menus = menuService.list();
         List<SysRoleMenu> roleMenus = roleMenuService.list(new QueryWrapper<SysRoleMenu>().eq("role_id", roleId));
         Map<Integer, Integer> roleMenuMap = roleMenus.stream().collect(Collectors.toMap(SysRoleMenu::getMenuId, SysRoleMenu::getRoleId));
-        Map<Integer, List<SysMenu>> parent = menus.stream().map(a -> {
-            if (roleMenuMap.get(a.getId()) != null) {
-                a.setChecked(true);
+        return menuService.toCheckedTree(menus, menu -> {
+            if (roleMenuMap.get(menu.getId()) != null) {
+                menu.setChecked(true);
             }
-            return a;
-        }).collect(Collectors.groupingBy(SysMenu::getParentId));
-        return initChild(parent.get(-1), parent);
+            return menu;
+        });
     }
 
     public List<SysRole> findAllRole() {
@@ -141,16 +132,9 @@ public class SystemService extends ServiceImpl<SysUserMapper, SysUser> {
 
     public List<SysMenu> findAllMenu() {
         List<SysMenu> menus = menuService.list();
-        return menus2Tree(menus);
+        return menuService.toTree(menus);
     }
 
-    private List<SysMenu> menus2Tree(List<SysMenu> menus) {
-        if (menus.size() == 0) {
-            return menus;
-        }
-        Map<Integer, List<SysMenu>> parent = menus.stream().collect(Collectors.groupingBy(SysMenu::getParentId));
-        return initChild(parent.get(-1), parent);
-    }
 
     public boolean saveOrUpdateRole(SysRole role) {
         SysRole sysRole = roleMapper.selectOne(new QueryWrapper<SysRole>().eq("name", role.getName()).last("limit 1"));
@@ -162,24 +146,7 @@ public class SystemService extends ServiceImpl<SysUserMapper, SysUser> {
 
     public boolean saveOrUpdateMenu(SysMenu menu) {
         permissionCache.invalidateAll();
-        if (menu.getId() == null) {
-            menu.setIsLeaf(true);
-            if (menu.getParentId() == null || menu.getParentId() == -1) {
-                menu.setLevel(1);
-                menu.setParentId(-1);
-                menu.setParentIdPath("/");
-                return menuService.save(menu);
-            }
-            SysMenu parent = menuService.getById(menu.getParentId());
-            if (parent.getIsLeaf()) {
-                parent.setIsLeaf(false);
-                menuService.updateById(parent);
-            }
-            menu.setLevel(parent.getLevel() + 1);
-            menu.setParentIdPath(parent.getParentIdPath() + parent.getId() + "/");
-            return menuService.save(menu);
-        }
-        return menuService.updateById(menu);
+        return menuService.saveOrUpdateTree(menu);
     }
 
     public boolean addMenu2Role(AddMenu2RoleDto menu) {
@@ -205,31 +172,20 @@ public class SystemService extends ServiceImpl<SysUserMapper, SysUser> {
         return userRoleService.saveBatch(userRoles);
     }
 
-    public boolean removeRole(Integer id) {
-        roleMenuService.remove(new QueryWrapper<SysRoleMenu>().eq("role_id", id));
-        userRoleService.remove(new QueryWrapper<SysUserRole>().eq("role_id", id));
-        return roleMapper.deleteById(id) > 0;
+    public boolean removeRoleBatch(List<Integer> ids) {
+        roleMenuService.remove(new QueryWrapper<SysRoleMenu>().in("role_id", ids));
+        userRoleService.remove(new QueryWrapper<SysUserRole>().in("role_id", ids));
+        return roleMapper.deleteBatchIds(ids) > 0;
     }
 
     public boolean removeMenu(Integer id) {
-        SysMenu menu = menuService.getById(id);
-        if (menu == null) {
-            return false;
-        }
-        QueryWrapper<SysMenu> wrapper = new QueryWrapper<SysMenu>().eq("id", id).or().like("parent_id_path", "/" + id + "/");
-        List<Integer> ids = menuService.list(wrapper).stream().map(SysMenu::getId).collect(Collectors.toList());
+        List<Integer> ids = menuService.removeTree(id);
         roleMenuService.remove(new QueryWrapper<SysRoleMenu>().in("menu_id", ids));
-        menuService.removeByIds(ids);
-        if (menu.getParentId() != -1) {
-            int count = menuService.count(new QueryWrapper<SysMenu>().eq("parent_id", menu.getParentId()));
-            if (count == 0) {
-                SysMenu parent = new SysMenu();
-                parent.setId(menu.getParentId());
-                parent.setIsLeaf(true);
-                parent.setLevel(1);
-                return menuService.updateById(parent);
-            }
-        }
         return true;
+    }
+
+    public boolean removeUserBatch(List<Integer> ids) {
+        userRoleService.remove(new QueryWrapper<SysUserRole>().in("user_id", ids));
+        return removeByIds(ids);
     }
 }

@@ -18,7 +18,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.time.LocalDateTime;
 
 
 /**
@@ -58,7 +57,6 @@ public class SysLogAspect {
         }
         //获取请求的方法名
         sysLog.setMethod(method.getName());
-        sysLog.setCreatedAt(LocalDateTime.now());
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         sysLog.setCreatedIp(request.getRemoteAddr());
         sysLog.setCreatedBy(AuthDataHolder.get().getId());

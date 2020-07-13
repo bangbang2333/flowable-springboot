@@ -1,6 +1,7 @@
 package com.creativec.mapper;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.creativec.entity.SysUser;
 
 /**
@@ -12,7 +13,7 @@ import com.creativec.entity.SysUser;
  * @since 2020-03-13
  */
 
-public interface SysUserMapper extends BaseMyBatisMapper<SysUser> {
+public interface SysUserMapper extends BaseMapper<SysUser> {
 
 
 }

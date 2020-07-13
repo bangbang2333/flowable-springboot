@@ -1,6 +1,7 @@
 package com.creativec.mapper;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.creativec.entity.SysRoleMenu;
 
 /**
@@ -11,6 +12,6 @@ import com.creativec.entity.SysRoleMenu;
  * @author zsx
  * @since 2020-07-08
  */
-public interface SysRoleMenuMapper extends BaseMyBatisMapper<SysRoleMenu> {
+public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
 
 }

@@ -64,10 +64,10 @@ public class SysUserController {
         return sysUserService.saveOrUpdateRole(role);
     }
 
-    @ApiOperation(notes = "removeRole", value = "删除角色")
-    @PostMapping("/removeRole")
-    public boolean removeRole(Integer id) {
-        return sysUserService.removeRole(id);
+    @ApiOperation(notes = "removeRoleBatch", value = "批量删除角色")
+    @PostMapping("/removeRoleBatch")
+    public boolean removeRoleBatch(@RequestBody List<Integer> ids) {
+        return sysUserService.removeRoleBatch(ids);
     }
 
     @ApiOperation(notes = "saveOrUpdateMenu", value = "新增或修改菜单")
@@ -114,6 +114,12 @@ public class SysUserController {
         PageHelper.startPage(page.getCurrent(), page.getSize());
         List<SysUser> list = sysUserService.list();
         return PageResult.ok(list);
+    }
+
+    @ApiOperation(notes = "removeUserBatch", value = "批量删除用户")
+    @PostMapping("/removeUserBatch")
+    public boolean removeUserBatch(@RequestBody List<Integer> ids) {
+        return sysUserService.removeUserBatch(ids);
     }
 
     @ApiOperation(notes = "findAllRole", value = "查询角色列表,返回所有角色")
