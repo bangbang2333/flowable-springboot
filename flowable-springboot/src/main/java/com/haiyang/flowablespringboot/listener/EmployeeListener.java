@@ -16,6 +16,6 @@ public class EmployeeListener implements TaskListener {
         log.info("任务的流程实例id:{}" + delegateTask.getProcessInstanceId());
         log.info("任务的创建时间:{}" + delegateTask.getCreateTime().toLocaleString());
         log.info("任务的结束时间:{}" + delegateTask.getDueDate());
-        delegateTask.setAssignee("刘军");
+        delegateTask.setAssignee("曾棒");
     }
 }

@@ -3,9 +3,9 @@ package com.haiyang.flowablespringboot.listener;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.delegate.TaskListener;
 import org.flowable.task.service.delegate.DelegateTask;
-@Slf4j
 
-public class DirectorListener implements TaskListener {
+@Slf4j
+public class EmployerListener implements TaskListener {
     @Override
     public void notify(DelegateTask delegateTask) {
         log.info("任务的ID:{}" + delegateTask.getId());
@@ -16,6 +16,6 @@ public class DirectorListener implements TaskListener {
         log.info("任务的流程实例id:{}" + delegateTask.getProcessInstanceId());
         log.info("任务的创建时间:{}" + delegateTask.getCreateTime().toLocaleString());
         log.info("任务的结束时间:{}" + delegateTask.getDueDate());
-        delegateTask.setAssignee("曹臣");
+        delegateTask.setAssignee("Tim");
     }
 }

@@ -1,4 +1,4 @@
-package com.haiyang.flowablespringboot.wellsoft2;
+package com.haiyang.flowablespringboot.wellsoft3;
 
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.common.engine.impl.history.HistoryLevel;
@@ -61,9 +61,9 @@ public class ProcessTess {
         ProcessEngine processEngine = getProcessEngine();
         RepositoryService repositoryService = processEngine.getRepositoryService();
         Deployment deployment = repositoryService.createDeployment()
-                .name("运策量子请假流程2")
-                .key("wellsoft_holiday2")
-                .addClasspathResource("wellsoft_holiday2.bpmn20.xml")
+                .name("运策量子请假流程3")
+                .key("wellsoft_holiday3")
+                .addClasspathResource("wellsoft_holiday3.bpmn20.xml")
                 .deploy();
         log.info("部署成功,id是：{}", deployment.getId());
         log.info("部署成功,key是：{}", deployment.getKey());
@@ -121,13 +121,12 @@ public class ProcessTess {
     @Test
     public void startProcess() {
         RuntimeService runtimeService = getProcessEngine().getRuntimeService();
-        String processKey = "process-holiday2";
+        String processKey = "process-holiday3";
         Map<String, Object> objectMap = new HashMap<>();
-        objectMap.put("employee", "曾棒");
         objectMap.put("reason", "生病了");
-        objectMap.put("time", "请假一个星期1");
+        objectMap.put("time", "请假一个星期");
         runtimeService.startProcessInstanceByKey(processKey, objectMap);
-        log.info("流程启动成功，待{}确认", objectMap.get("employee"));
+        log.info("流程启动成功");
     }
 
     /**
@@ -140,7 +139,7 @@ public class ProcessTess {
     @Test
     public void selectTask() {
         TaskService taskService = getProcessEngine().getTaskService();
-        String a = "曾棒";
+        String a = "曾棒,张三";
         Task task = taskService.createTaskQuery().taskAssignee(a).singleResult();
         log.info("任务的id是：{}", task.getId());
         Map<String, Object> processVariables = taskService.getVariables(task.getId());
@@ -163,7 +162,6 @@ public class ProcessTess {
         Map<String, Object> variable = new HashMap<>();
         variable.put("apply", "yes");
         variable.put("message", "我确实要请假");
-        variable.put("manager", "刘军");
         taskService.complete(task.getId(), variable);
         log.info("申请者提交了任务");
     }
@@ -177,7 +175,6 @@ public class ProcessTess {
         Map<String, Object> variable = new HashMap<>();
         variable.put("managerapprove", "yes");
         variable.put("message", "同意");
-        variable.put("director", "曹臣");
 //        variable.put("managerapprove", "no");
 //        variable.put("message", "不同意");
         taskService.complete(task.getId(), variable);
@@ -193,7 +190,6 @@ public class ProcessTess {
         Map<String, Object> variable = new HashMap<>();
         variable.put("directorapprove", "yes");
         variable.put("message", "同意");
-        variable.put("employer", "Tim");
 //        variable.put("directorapprove", "no");
 //        variable.put("message", "不同意");
         taskService.complete(task.getId(), variable);

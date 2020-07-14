@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef">
-  <process id="process-holiday" name="运策量子请假demo2" isExecutable="true">
+  <process id="process-holiday3" name="运策量子请假demo3" isExecutable="true">
     <startEvent id="startEvent1" flowable:formFieldValidation="true"></startEvent>
-    <userTask id="employee" name="提交申请" flowable:assignee="#{employee}" flowable:formFieldValidation="true">
+    <userTask id="employee" name="提交申请" flowable:formFieldValidation="true">
       <extensionElements>
         <flowable:taskListener event="create" class="com.haiyang.flowablespringboot.listener.EmployeeListener"></flowable:taskListener>
-        <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
       </extensionElements>
     </userTask>
     <sequenceFlow id="sid-0D7C6F16-CA83-4ABA-83E3-0ED6F09919A2" sourceRef="startEvent1" targetRef="employee"></sequenceFlow>
     <userTask id="manager" name="经理审批
-" flowable:assignee="#{manager}" flowable:formFieldValidation="true">
+" flowable:formFieldValidation="true">
       <extensionElements>
-        <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
+        <flowable:taskListener event="create" class="com.haiyang.flowablespringboot.listener.ManagerListener"></flowable:taskListener>
       </extensionElements>
     </userTask>
-    <userTask id="director" name="总监审批" flowable:assignee="#{director}" flowable:formFieldValidation="true">
+    <userTask id="director" name="总监审批" flowable:formFieldValidation="true">
       <extensionElements>
-        <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
+        <flowable:taskListener event="create" class="com.haiyang.flowablespringboot.listener.DirectorListener"></flowable:taskListener>
       </extensionElements>
     </userTask>
-    <userTask id="employer" name="老板审批" flowable:assignee="#{employer}" flowable:formFieldValidation="true">
+    <userTask id="employer" name="老板审批" flowable:formFieldValidation="true">
       <extensionElements>
-        <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
+        <flowable:taskListener event="create" class="com.haiyang.flowablespringboot.listener.EmployerListener"></flowable:taskListener>
       </extensionElements>
     </userTask>
     <endEvent id="sid-D7ADCB15-9B3B-476C-BAE3-CE51567AC5F9"></endEvent>
@@ -58,13 +57,13 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{employerapprove=='yes'}]]></conditionExpression>
     </sequenceFlow>
   </process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_process-holiday">
-    <bpmndi:BPMNPlane bpmnElement="process-holiday" id="BPMNPlane_process-holiday">
+  <bpmndi:BPMNDiagram id="BPMNDiagram_process-holiday3">
+    <bpmndi:BPMNPlane bpmnElement="process-holiday3" id="BPMNPlane_process-holiday3">
       <bpmndi:BPMNShape bpmnElement="startEvent1" id="BPMNShape_startEvent1">
         <omgdc:Bounds height="30.0" width="30.0" x="60.0" y="320.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="employee" id="BPMNShape_employee">
-        <omgdc:Bounds height="80.0" width="100.0" x="150.0" y="295.0"></omgdc:Bounds>
+        <omgdc:Bounds height="80.0" width="100.0" x="135.0" y="295.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="manager" id="BPMNShape_manager">
         <omgdc:Bounds height="80.0" width="100.0" x="345.0" y="295.0"></omgdc:Bounds>
@@ -94,8 +93,8 @@
         <omgdi:waypoint x="945.0" y="335.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="abandon" id="BPMNEdge_abandon">
-        <omgdi:waypoint x="200.0" y="374.95000000000005"></omgdi:waypoint>
-        <omgdi:waypoint x="200.0" y="570.0"></omgdi:waypoint>
+        <omgdi:waypoint x="185.0" y="374.95000000000005"></omgdi:waypoint>
+        <omgdi:waypoint x="185.0" y="570.0"></omgdi:waypoint>
         <omgdi:waypoint x="959.0" y="570.0"></omgdi:waypoint>
         <omgdi:waypoint x="959.0" y="348.94992236479607"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
@@ -108,8 +107,8 @@
         <omgdi:waypoint x="750.0" y="335.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-0D7C6F16-CA83-4ABA-83E3-0ED6F09919A2" id="BPMNEdge_sid-0D7C6F16-CA83-4ABA-83E3-0ED6F09919A2">
-        <omgdi:waypoint x="89.94999883049303" y="335.0"></omgdi:waypoint>
-        <omgdi:waypoint x="150.0" y="335.0"></omgdi:waypoint>
+        <omgdi:waypoint x="89.94999848995758" y="335.0"></omgdi:waypoint>
+        <omgdi:waypoint x="135.0" y="335.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="managerflow2" id="BPMNEdge_managerflow2">
         <omgdi:waypoint x="444.95" y="299.99714543690243"></omgdi:waypoint>
@@ -117,12 +116,12 @@
         <omgdi:waypoint x="593.3632279331631" y="203.34356986333032"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="applyflow" id="BPMNEdge_applyflow">
-        <omgdi:waypoint x="249.95000000000002" y="335.0"></omgdi:waypoint>
-        <omgdi:waypoint x="345.0" y="335.0"></omgdi:waypoint>
+        <omgdi:waypoint x="234.94999999995036" y="335.0"></omgdi:waypoint>
+        <omgdi:waypoint x="344.9999999998776" y="335.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="repeatflow" id="BPMNEdge_repeatflow">
-        <omgdi:waypoint x="590.6192660550458" y="200.6064678899083"></omgdi:waypoint>
-        <omgdi:waypoint x="249.94999999999993" y="317.7990135635019"></omgdi:waypoint>
+        <omgdi:waypoint x="590.4821428571429" y="200.4696875"></omgdi:waypoint>
+        <omgdi:waypoint x="234.95" y="318.41260404280615"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="employerflow2" id="BPMNEdge_employerflow2">
         <omgdi:waypoint x="750.0" y="299.1025641025641"></omgdi:waypoint>
