@@ -1,0 +1,32 @@
+###################  项目启动端口  ###################
+server:
+  port: 8080
+
+###################  spring配置  ###################
+spring:
+  profiles:
+    active: dev
+##########################################################
+###################  开发环境的profile  ###################
+##########################################################
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://rm-m5eurfxs3558j21lino.mysql.rds.aliyuncs.com:3306/activity?useUnicode=true&characterEncoding=utf8
+    username: zengbang
+    password: 12345678
+    hikari:
+      maximum-pool-size: 1
+
+
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        boot:
+          autoconfigure: warn
+    com:
+      haiyang: warn
+  path: logs/
+  file: flowable-test.log
+

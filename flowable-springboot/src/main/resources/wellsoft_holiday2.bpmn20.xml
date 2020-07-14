@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef">
+  <process id="process-holiday" name="运策量子请假demo2" isExecutable="true">
+    <extensionElements>
+      <flowable:executionListener event="start" class="com.haiyang.flowablespringboot.listener.EmployeeListener"></flowable:executionListener>
+    </extensionElements>
+    <startEvent id="startEvent1" flowable:formFieldValidation="true"></startEvent>
+    <userTask id="employee" name="提交申请" flowable:assignee="#{employee}" flowable:formFieldValidation="true">
+      <extensionElements>
+        <flowable:taskListener event="create" class="com.haiyang.flowablespringboot.listener.EmployeeListener"></flowable:taskListener>
+        <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-0D7C6F16-CA83-4ABA-83E3-0ED6F09919A2" sourceRef="startEvent1" targetRef="employee"></sequenceFlow>
+    <userTask id="manager" name="经理审批
+" flowable:assignee="#{manager}" flowable:formFieldValidation="true">
+      <extensionElements>
+        <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
+      </extensionElements>
+    </userTask>
+    <userTask id="director" name="总监审批" flowable:assignee="#{director}" flowable:formFieldValidation="true">
+      <extensionElements>
+        <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
+      </extensionElements>
+    </userTask>
+    <userTask id="employer" name="老板审批" flowable:assignee="#{employer}" flowable:formFieldValidation="true">
+      <extensionElements>
+        <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
+      </extensionElements>
+    </userTask>
+    <endEvent id="sid-D7ADCB15-9B3B-476C-BAE3-CE51567AC5F9"></endEvent>
+    <sequenceFlow id="abandon" name="放弃申请" sourceRef="employee" targetRef="sid-D7ADCB15-9B3B-476C-BAE3-CE51567AC5F9">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{apply=='no'}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="sid-F8EA0615-2373-4E4D-9C47-104766BD8009"></exclusiveGateway>
+    <sequenceFlow id="applyflow" name="确认提交" sourceRef="employee" targetRef="manager">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{apply=='yes'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="directorflow" name="总监同意" sourceRef="director" targetRef="employer">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{directorapprove=='yes'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="directorflow2" name="总监驳回" sourceRef="director" targetRef="sid-F8EA0615-2373-4E4D-9C47-104766BD8009">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{directorapprove=='no'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="employerflow2" name="老板驳回" sourceRef="employer" targetRef="sid-F8EA0615-2373-4E4D-9C47-104766BD8009">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{employerapprove=='no'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="managerflow2" name="经理驳回" sourceRef="manager" targetRef="sid-F8EA0615-2373-4E4D-9C47-104766BD8009">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{managerapprove=='no'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="repeatflow" name="打回重写" sourceRef="sid-F8EA0615-2373-4E4D-9C47-104766BD8009" targetRef="employee">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{managerapprove=='no'||directorapprove=='no'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="endflow" name="不予批准" sourceRef="sid-F8EA0615-2373-4E4D-9C47-104766BD8009" targetRef="sid-D7ADCB15-9B3B-476C-BAE3-CE51567AC5F9">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{employerapprove=='no'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="managerflow" name="经理同意" sourceRef="manager" targetRef="director">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{managerapprove=='yes'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="employerflow" name="老板同意" sourceRef="employer" targetRef="sid-D7ADCB15-9B3B-476C-BAE3-CE51567AC5F9">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{employerapprove=='yes'}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_process-holiday">
+    <bpmndi:BPMNPlane bpmnElement="process-holiday" id="BPMNPlane_process-holiday">
+      <bpmndi:BPMNShape bpmnElement="startEvent1" id="BPMNShape_startEvent1">
+        <omgdc:Bounds height="30.0" width="30.0" x="60.0" y="320.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="employee" id="BPMNShape_employee">
+        <omgdc:Bounds height="80.0" width="100.0" x="150.0" y="295.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="manager" id="BPMNShape_manager">
+        <omgdc:Bounds height="80.0" width="100.0" x="345.0" y="285.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="director" id="BPMNShape_director">
+        <omgdc:Bounds height="80.0" width="100.0" x="555.0" y="295.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="employer" id="BPMNShape_employer">
+        <omgdc:Bounds height="80.0" width="100.0" x="750.0" y="295.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-D7ADCB15-9B3B-476C-BAE3-CE51567AC5F9" id="BPMNShape_sid-D7ADCB15-9B3B-476C-BAE3-CE51567AC5F9">
+        <omgdc:Bounds height="28.0" width="28.0" x="945.0" y="321.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-F8EA0615-2373-4E4D-9C47-104766BD8009" id="BPMNShape_sid-F8EA0615-2373-4E4D-9C47-104766BD8009">
+        <omgdc:Bounds height="40.0" width="40.0" x="585.0" y="175.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="directorflow2" id="BPMNEdge_directorflow2">
+        <omgdi:waypoint x="605.0" y="295.0"></omgdi:waypoint>
+        <omgdi:waypoint x="605.0" y="214.90709435310944"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="endflow" id="BPMNEdge_endflow">
+        <omgdi:waypoint x="619.0870462380856" y="200.8621196754564"></omgdi:waypoint>
+        <omgdi:waypoint x="945.963913570465" y="329.8595533626481"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="employerflow" id="BPMNEdge_employerflow">
+        <omgdi:waypoint x="849.9499999999999" y="335.0"></omgdi:waypoint>
+        <omgdi:waypoint x="945.0" y="335.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="abandon" id="BPMNEdge_abandon">
+        <omgdi:waypoint x="200.0" y="374.95000000000005"></omgdi:waypoint>
+        <omgdi:waypoint x="200.0" y="570.0"></omgdi:waypoint>
+        <omgdi:waypoint x="959.0" y="570.0"></omgdi:waypoint>
+        <omgdi:waypoint x="959.0" y="348.94992236479607"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="managerflow" id="BPMNEdge_managerflow">
+        <omgdi:waypoint x="444.95000000000005" y="325.0"></omgdi:waypoint>
+        <omgdi:waypoint x="500.0" y="325.0"></omgdi:waypoint>
+        <omgdi:waypoint x="500.0" y="335.0"></omgdi:waypoint>
+        <omgdi:waypoint x="555.0" y="335.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="directorflow" id="BPMNEdge_directorflow">
+        <omgdi:waypoint x="654.9499999999999" y="335.0"></omgdi:waypoint>
+        <omgdi:waypoint x="750.0" y="335.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-0D7C6F16-CA83-4ABA-83E3-0ED6F09919A2" id="BPMNEdge_sid-0D7C6F16-CA83-4ABA-83E3-0ED6F09919A2">
+        <omgdi:waypoint x="89.94999883049303" y="335.0"></omgdi:waypoint>
+        <omgdi:waypoint x="150.0" y="335.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="managerflow2" id="BPMNEdge_managerflow2">
+        <omgdi:waypoint x="444.95000000000005" y="298.357347206599"></omgdi:waypoint>
+        <omgdi:waypoint x="454.80716898632335" y="293.1315672428225"></omgdi:waypoint>
+        <omgdi:waypoint x="593.3632279331631" y="203.34356986333032"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="applyflow" id="BPMNEdge_applyflow">
+        <omgdi:waypoint x="249.9499999999887" y="335.0"></omgdi:waypoint>
+        <omgdi:waypoint x="297.5" y="335.0"></omgdi:waypoint>
+        <omgdi:waypoint x="297.5" y="325.0"></omgdi:waypoint>
+        <omgdi:waypoint x="345.0" y="325.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="repeatflow" id="BPMNEdge_repeatflow">
+        <omgdi:waypoint x="590.6192660550458" y="200.6064678899083"></omgdi:waypoint>
+        <omgdi:waypoint x="249.94999999999993" y="317.7990135635019"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="employerflow2" id="BPMNEdge_employerflow2">
+        <omgdi:waypoint x="750.0" y="299.1025641025641"></omgdi:waypoint>
+        <omgdi:waypoint x="616.6049641684084" y="203.3373134328358"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

@@ -20,3 +20,5 @@
 /oa/src/main/resources/rebel.xml
 /oa/src/main/resources/rebel-remote.xml
 /oa/src/main/resources/rebel.xml
+/flowable-springboot/.idea
+/flowable-springboot/*.iml
