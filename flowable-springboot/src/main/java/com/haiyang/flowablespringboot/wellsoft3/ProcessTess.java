@@ -1,18 +1,28 @@
 package com.haiyang.flowablespringboot.wellsoft3;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.common.engine.impl.history.HistoryLevel;
 import org.flowable.engine.*;
+import org.flowable.engine.history.HistoricActivityInstance;
+import org.flowable.engine.history.HistoricProcessInstance;
+import org.flowable.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.flowable.engine.impl.cfg.StandaloneProcessEngineConfiguration;
+import org.flowable.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.ProcessDefinition;
+import org.flowable.engine.runtime.Execution;
+import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.image.ProcessDiagramGenerator;
 import org.flowable.task.api.Task;
 import org.junit.Test;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.*;
 
 @Slf4j
 public class ProcessTess {
@@ -32,7 +42,10 @@ public class ProcessTess {
                 .setJdbcPassword("12345678")
                 .setJdbcDriver("com.mysql.jdbc.Driver")
                 .setDatabaseSchemaUpdate(StandaloneProcessEngineConfiguration.DB_SCHEMA_UPDATE_DROP_CREATE)
-                .setHistoryLevel(HistoryLevel.FULL);
+                .setHistoryLevel(HistoryLevel.FULL)
+                .setActivityFontName("宋体")
+                .setLabelFontName("宋体")
+                .setAnnotationFontName("宋体");
         cfg.buildProcessEngine();
         log.info("流程引擎启动成功");
     }
@@ -44,8 +57,10 @@ public class ProcessTess {
                 .setJdbcPassword("12345678")
                 .setJdbcDriver("com.mysql.jdbc.Driver")
                 .setDatabaseSchemaUpdate(StandaloneProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
-                .setHistoryLevel(HistoryLevel.FULL);
-
+                .setHistoryLevel(HistoryLevel.FULL)
+                .setActivityFontName("宋体")
+                .setLabelFontName("宋体")
+                .setAnnotationFontName("宋体");
         return cfg.buildProcessEngine();
     }
 
@@ -139,7 +154,7 @@ public class ProcessTess {
     @Test
     public void selectTask() {
         TaskService taskService = getProcessEngine().getTaskService();
-        String a = "曾棒,张三";
+        String a = "曾棒";
         Task task = taskService.createTaskQuery().taskAssignee(a).singleResult();
         log.info("任务的id是：{}", task.getId());
         Map<String, Object> processVariables = taskService.getVariables(task.getId());
@@ -235,6 +250,58 @@ public class ProcessTess {
         }
     }
 
+    @Test
+    public void selectProcessImage() throws IOException {
+        // 创建仓库服务对对象
+        RepositoryService repositoryService = getProcessEngine().getRepositoryService();
+        // 从仓库中找需要展示的文件
+        String deploymentId = "1";
+        List<String> names = repositoryService.getDeploymentResourceNames(deploymentId);
+        String imageName = null;
+        for (String name : names) {
+            if (name.indexOf(".png") >= 0) {
+                imageName = name;
+            }
+        }
+        if (imageName != null) {
+            log.info(imageName);
+            File f = new File("C:/" + imageName);
+            // 通过部署ID和文件名称得到文件的输入流
+            InputStream in = repositoryService.getResourceAsStream(deploymentId, imageName);
+            FileUtils.copyInputStreamToFile(in, f);
+        }
+    }
+
+    @Test
+    public void getActivityImage() throws IOException {
+
+        Task task = getProcessEngine().getTaskService().createTaskQuery().taskId("7506").singleResult();
+        //使用流程实例ID，查询正在执行的执行对象表，返回流程实例对象
+        String InstanceId = task.getProcessInstanceId();
+        List<String> activeActivityIds = getProcessEngine().getRuntimeService().getActiveActivityIds(InstanceId);
+        List<String> flowList = new ArrayList<>();
+        List<HistoricActivityInstance> historicActivityInstances = getProcessEngine().getHistoryService()
+                .createHistoricActivityInstanceQuery()
+                .processInstanceId(InstanceId)
+                .orderByHistoricActivityInstanceStartTime().asc()
+                .finished()
+                .list();
+        for (HistoricActivityInstance historicActivityInstance : historicActivityInstances) {
+            if (historicActivityInstance.getActivityType().equals("sequenceFlow")) {
+                flowList.add(historicActivityInstance.getActivityId());
+            } else {
+                activeActivityIds.add(historicActivityInstance.getActivityId());
+            }
+        }
+        //获取流程图
+        BpmnModel bpmnModel = getProcessEngine().getRepositoryService().getBpmnModel(task.getProcessDefinitionId());
+        ProcessDiagramGenerator diagramGenerator = getProcessEngine().getProcessEngineConfiguration().getProcessDiagramGenerator();
+        InputStream in = diagramGenerator.generateDiagram(bpmnModel, "jpg", activeActivityIds, flowList, "黑体", "黑体", "黑体", diagramGenerator.getClass().getClassLoader(), 10000.0, true);
+        File f = new File("C:/" + "demo3.jpg");
+        // 通过部署ID和文件名称得到文件的输入流
+        FileUtils.copyInputStreamToFile(in, f);
+
+    }
 }
 
 

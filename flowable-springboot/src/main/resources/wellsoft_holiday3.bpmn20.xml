@@ -4,6 +4,7 @@
     <startEvent id="startEvent1" flowable:formFieldValidation="true"></startEvent>
     <userTask id="employee" name="提交申请" flowable:formFieldValidation="true">
       <extensionElements>
+        <flowable:executionListener event="start" class="com.haiyang.flowablespringboot.listener.ExecEmployeeListener"></flowable:executionListener>
         <flowable:taskListener event="create" class="com.haiyang.flowablespringboot.listener.EmployeeListener"></flowable:taskListener>
       </extensionElements>
     </userTask>
@@ -25,9 +26,6 @@
       </extensionElements>
     </userTask>
     <endEvent id="sid-D7ADCB15-9B3B-476C-BAE3-CE51567AC5F9"></endEvent>
-    <sequenceFlow id="abandon" name="放弃申请" sourceRef="employee" targetRef="sid-D7ADCB15-9B3B-476C-BAE3-CE51567AC5F9">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{apply=='no'}]]></conditionExpression>
-    </sequenceFlow>
     <exclusiveGateway id="sid-F8EA0615-2373-4E4D-9C47-104766BD8009"></exclusiveGateway>
     <sequenceFlow id="applyflow" name="确认提交" sourceRef="employee" targetRef="manager">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{apply=='yes'}]]></conditionExpression>
@@ -55,6 +53,10 @@
     </sequenceFlow>
     <sequenceFlow id="employerflow" name="老板同意" sourceRef="employer" targetRef="sid-D7ADCB15-9B3B-476C-BAE3-CE51567AC5F9">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{employerapprove=='yes'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="abandon" name="放弃申请" sourceRef="employee" targetRef="sid-D7ADCB15-9B3B-476C-BAE3-CE51567AC5F9">
+      <documentation>放弃申请</documentation>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{apply=='no'}]]></conditionExpression>
     </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_process-holiday3">
@@ -92,15 +94,15 @@
         <omgdi:waypoint x="849.9499999999999" y="335.0"></omgdi:waypoint>
         <omgdi:waypoint x="945.0" y="335.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="managerflow" id="BPMNEdge_managerflow">
+        <omgdi:waypoint x="444.95000000000005" y="335.0"></omgdi:waypoint>
+        <omgdi:waypoint x="555.0" y="335.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="abandon" id="BPMNEdge_abandon">
         <omgdi:waypoint x="185.0" y="374.95000000000005"></omgdi:waypoint>
         <omgdi:waypoint x="185.0" y="570.0"></omgdi:waypoint>
         <omgdi:waypoint x="959.0" y="570.0"></omgdi:waypoint>
         <omgdi:waypoint x="959.0" y="348.94992236479607"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="managerflow" id="BPMNEdge_managerflow">
-        <omgdi:waypoint x="444.95000000000005" y="335.0"></omgdi:waypoint>
-        <omgdi:waypoint x="555.0" y="335.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="directorflow" id="BPMNEdge_directorflow">
         <omgdi:waypoint x="654.9499999999999" y="335.0"></omgdi:waypoint>

@@ -138,7 +138,8 @@ public class ExpenseController {
         list.add(engconf.getLabelFontName());
         list.add(engconf.getAnnotationFontName());
         list.add(engconf.getClassLoader());
-        InputStream in = diagramGenerator.generateDiagram(bpmnModel, "png", activityIds,list,true);
+        InputStream in = diagramGenerator
+                .generateDiagram(bpmnModel, "png", activityIds,list,true);
         OutputStream out = null;
         byte[] buf = new byte[1024];
         int legth = 0;
