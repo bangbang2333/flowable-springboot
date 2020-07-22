@@ -123,7 +123,7 @@ public class ProcessTess {
         RuntimeService runtimeService = getProcessEngine().getRuntimeService();
         String processKey = "wellsoft-holiday";
         Map<String, Object> objectMap = new HashMap<>();
-        objectMap.put("employee", "曾棒");
+        objectMap.put("employee", "曾棒,A,B,C,D,E,F,G");
         objectMap.put("reason", "生病了");
         objectMap.put("time", "请假一个星期");
         runtimeService.startProcessInstanceByKey(processKey, objectMap);
@@ -140,8 +140,8 @@ public class ProcessTess {
     @Test
     public void selectTask() {
         TaskService taskService = getProcessEngine().getTaskService();
-        String a = "曾棒";
-        Task task = taskService.createTaskQuery().taskAssignee(a).singleResult();
+        String a = "A";
+        Task task = taskService.createTaskQuery().taskCandidateUser(a).singleResult();
         log.info("任务的id是：{}", task.getId());
         Map<String, Object> processVariables = taskService.getVariables(task.getId());
         log.info("任务里面说了些啥？{}", processVariables);

@@ -4,6 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.delegate.TaskListener;
 import org.flowable.task.service.delegate.DelegateTask;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 public class EmployeeListener implements TaskListener {
     @Override
@@ -16,6 +19,6 @@ public class EmployeeListener implements TaskListener {
         log.info("任务的流程实例id:{}" + delegateTask.getProcessInstanceId());
         log.info("任务的创建时间:{}" + delegateTask.getCreateTime().toLocaleString());
         log.info("任务的结束时间:{}" + delegateTask.getDueDate());
-        delegateTask.setAssignee("曾棒");
+
     }
 }

@@ -1,4 +1,4 @@
-package com.haiyang.flowablespringboot.wellsoft3;
+package com.haiyang.flowablespringboot.wellsoft4;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -6,14 +6,9 @@ import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.common.engine.impl.history.HistoryLevel;
 import org.flowable.engine.*;
 import org.flowable.engine.history.HistoricActivityInstance;
-import org.flowable.engine.history.HistoricProcessInstance;
-import org.flowable.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.flowable.engine.impl.cfg.StandaloneProcessEngineConfiguration;
-import org.flowable.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.ProcessDefinition;
-import org.flowable.engine.runtime.Execution;
-import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.image.ProcessDiagramGenerator;
 import org.flowable.task.api.Task;
 import org.junit.Test;
@@ -21,7 +16,6 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.*;
 
 @Slf4j
@@ -76,9 +70,9 @@ public class ProcessTess {
         ProcessEngine processEngine = getProcessEngine();
         RepositoryService repositoryService = processEngine.getRepositoryService();
         Deployment deployment = repositoryService.createDeployment()
-                .name("运策量子请假流程3")
-                .key("wellsoft_holiday3")
-                .addClasspathResource("wellsoft_holiday3.bpmn20.xml")
+                .name("运策量子请假流程4")
+                .key("wellsoft_holiday4")
+                .addClasspathResource("wellsoft_holiday4.bpmn20.xml")
                 .deploy();
         log.info("部署成功,id是：{}", deployment.getId());
         log.info("部署成功,key是：{}", deployment.getKey());
@@ -136,10 +130,20 @@ public class ProcessTess {
     @Test
     public void startProcess() {
         RuntimeService runtimeService = getProcessEngine().getRuntimeService();
-        String processKey = "process-holiday3";
+        String processKey = "process-holiday4";
+        List<String> stringList = new ArrayList<>();
+        stringList.add("曾棒");
+        stringList.add("张三");
+        stringList.add("李四");
+        stringList.add("王五");
+        stringList.add("赵六");
         Map<String, Object> objectMap = new HashMap<>();
         objectMap.put("reason", "生病了");
         objectMap.put("time", "请假一个星期");
+        objectMap.put("employee", null);
+        objectMap.put("employeePart", null);
+        objectMap.put("employeeGroup", null);
+        objectMap.put("employeeList", stringList);
         runtimeService.startProcessInstanceByKey(processKey, objectMap);
         log.info("流程启动成功");
     }
@@ -171,17 +175,36 @@ public class ProcessTess {
     @Test
     public void applyTask() {
         TaskService taskService = getProcessEngine().getTaskService();
-        String a = "曾棒";
+        String a = "王五";
         Task task = taskService.createTaskQuery().taskAssignee(a).singleResult();
+        Map variableMap = taskService.getVariables(task.getId());
+        int passCount = variableMap.get("passCount") == null ? 0 : Integer.valueOf(variableMap.get("passCount").toString());
+        int nopassCount = variableMap.get("nopassCount") == null ? 0 : Integer.valueOf(variableMap.get("nopassCount").toString());
+        log.info("通过的决定是:{}，不通过的数量是:{}", passCount, nopassCount);
         log.info("任务的id是：{}", task.getId());
+
+        for (Object variable : variableMap.keySet()) {
+            log.info("key是:{},value是:{}", variable, variableMap.get(variable));
+        }
+
         Map<String, Object> variable = new HashMap<>();
-        variable.put("apply", "yes");
+        variable.put("employer", "Tim");
+        variable.put("employerPart", null);
+        variable.put("employerGroup", null);
+        variable.put("apply", "no");
         variable.put("message", "我确实要请假");
+        if (variable.get("apply").equals("yes")) {
+            variable.put("passCount", ++passCount);
+            variable.put("nopassCount", nopassCount);
+        } else if (variable.get("apply").equals("no")) {
+            variable.put("passCount", passCount);
+            variable.put("nopassCount", ++nopassCount);
+        }
         taskService.complete(task.getId(), variable);
         log.info("申请者提交了任务");
     }
 
-    @Test
+/*    @Test
     public void applyTask1() {
         TaskService taskService = getProcessEngine().getTaskService();
         String a = "刘军";
@@ -209,7 +232,7 @@ public class ProcessTess {
 //        variable.put("message", "不同意");
         taskService.complete(task.getId(), variable);
         log.info("申请者提交了任务");
-    }
+    }*/
 
     @Test
     public void applyTask3() {
@@ -218,10 +241,15 @@ public class ProcessTess {
         Task task = taskService.createTaskQuery().taskAssignee(a).singleResult();
         log.info("任务的id是：{}", task.getId());
         Map<String, Object> variable = new HashMap<>();
-//        variable.put("employerapprove", "yes");
+//        variable.put("approve", "yes");
 //        variable.put("message", "同意");
-        variable.put("employerapprove", "no");
+        variable.put("approve", "no");
         variable.put("message", "不同意");
+
+        if (variable.get("approve").equals("no")) {
+            variable.put("passCount", 0);
+            variable.put("nopassCount", 0);
+        }
         taskService.complete(task.getId(), variable);
         log.info("申请者提交了任务");
     }
